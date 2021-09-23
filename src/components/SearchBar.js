@@ -7,17 +7,16 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {Colors} from '../constants';
 
-export default function SearchBar() {
+export default function SearchBar({setsearchInput}) {
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
         placeholder="Search"
         onPress={(data, details = null) => {
-          // 'details' is provided when fetchDetails = true
-          console.log(data, details);
+          setsearchInput(data.description.split(',')[0]);
         }}
         query={{
-          key: 'YOUR API KEY',
+          key: 'AIzaSyA86Ztzw4bOB5xdqy1wXm-nAok8B6MownM',
           language: 'en',
         }}
         renderLeftButton={() => (
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light,
     paddingLeft: 10,
     paddingBottom: 2,
-    alignItems: 'center',
   },
   locationIcon: {
     marginLeft: 10,
@@ -84,5 +82,7 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     marginLeft: 5,
+    top: 10,
+    left: -3,
   },
 });

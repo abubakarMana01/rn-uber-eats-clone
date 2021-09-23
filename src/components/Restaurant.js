@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -19,7 +20,7 @@ export default function Restaurant({item}) {
         <ImageBackground
           resizeMode="cover"
           source={{
-            uri: item.imageURL,
+            uri: item.image_url,
           }}
           style={styles.image}
         />
@@ -28,7 +29,19 @@ export default function Restaurant({item}) {
       <View style={styles.bottom}>
         <View style={styles.bottomLeft}>
           <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.time}>30-45 . min</Text>
+          <Text style={styles.review}>{item.review_count} reviews</Text>
+          <View>
+            <Text
+              style={[
+                styles.restaurantStatus,
+                // eslint-disable-next-line react-native/no-inline-styles
+                {
+                  color: item.is_closed ? 'red' : 'green',
+                },
+              ]}>
+              {item.is_closed ? 'Closed' : 'Opened'}
+            </Text>
+          </View>
         </View>
 
         <View style={styles.bottomRight}>
@@ -67,6 +80,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: 180,
     marginBottom: 10,
+    backgroundColor: Colors.lightGrey,
   },
   image: {
     width: '100%',
@@ -80,17 +94,25 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: '700',
     fontSize: 16,
+    maxWidth: Dimensions.get('window').width * 0.65,
   },
-  time: {
+  review: {
     fontWeight: '400',
     color: Colors.darkGrey,
     fontSize: 13,
   },
+  restaurantStatus: {
+    fontWeight: '600',
+    fontSize: 14,
+  },
   ratingContainer: {
-    padding: 10,
-    borderRadius: 20,
+    borderRadius: 15,
     backgroundColor: Colors.lightGrey,
     marginHorizontal: 10,
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   rating: {
     fontWeight: '500',
@@ -99,6 +121,5 @@ const styles = StyleSheet.create({
   favouriteIcon: {},
   bottomRight: {
     flexDirection: 'row',
-    alignItems: 'center',
   },
 });

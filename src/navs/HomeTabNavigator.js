@@ -26,7 +26,7 @@ export default function HomeTabNavigator() {
           fontSize: 12,
         },
         tabBarStyle: {
-          backgroundColor: colors.lightGrey,
+          // backgroundColor: colors.lightGrey,
         },
       }}>
       <Tab.Screen

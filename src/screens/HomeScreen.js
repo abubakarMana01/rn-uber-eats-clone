@@ -6,6 +6,7 @@ import {Colors} from '../constants';
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState('Delivery');
+  const [searchInput, setsearchInput] = useState('Barcelona');
 
   return (
     <View style={styles.container}>
@@ -30,8 +31,11 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-      <SearchBar />
-      <HomeRestaurants />
+      <SearchBar setsearchInput={setsearchInput} searchInput={searchInput} />
+      <HomeRestaurants
+        setsearchInput={setsearchInput}
+        searchInput={searchInput}
+      />
     </View>
   );
 }
