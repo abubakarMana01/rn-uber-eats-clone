@@ -7,15 +7,23 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import {Colors} from '../constants';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
+
+import {Colors} from '../../constants';
 
 export default function Restaurant({item}) {
+  const navigation = useNavigation();
+
   const [isLiked, setIsLiked] = useState(false);
 
   return (
-    <TouchableOpacity activeOpacity={0.85} style={styles.restaurantContainer}>
+    <TouchableOpacity
+      activeOpacity={0.85}
+      style={styles.restaurantContainer}
+      onPress={() => navigation.navigate('Restaurant Details', {item})}>
       <View style={styles.imageContainer}>
         <ImageBackground
           resizeMode="cover"
@@ -30,7 +38,16 @@ export default function Restaurant({item}) {
         <View style={styles.bottomLeft}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.review}>{item.review_count} reviews</Text>
-          <View>
+          <View style={styles.restaurantStatusContainer}>
+            {!item.is_closed ? (
+              <FontAwesome name="check-circle-o" size={20} color="green" />
+            ) : (
+              <MaterialCommunityIcons
+                name="close-circle"
+                size={20}
+                color="red"
+              />
+            )}
             <Text
               style={[
                 styles.restaurantStatus,
@@ -101,9 +118,14 @@ const styles = StyleSheet.create({
     color: Colors.darkGrey,
     fontSize: 13,
   },
+  restaurantStatusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   restaurantStatus: {
     fontWeight: '600',
     fontSize: 14,
+    marginLeft: 5,
   },
   ratingContainer: {
     borderRadius: 15,

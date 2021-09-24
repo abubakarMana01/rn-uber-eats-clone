@@ -8,43 +8,43 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {Colors} from '../constants';
+import {Colors} from '../../constants';
 
 const categories = [
   {
     id: '1',
     title: 'Pick-up',
-    image: require('../assets/images/shopping-bag.png'),
+    image: require('../../assets/images/shopping-bag.png'),
   },
   {
     id: '2',
     title: 'Fast foods',
-    image: require('../assets/images/fast-food.png'),
+    image: require('../../assets/images/fast-food.png'),
   },
   {
     id: '3',
     title: 'Bakery Items',
-    image: require('../assets/images/bread.png'),
+    image: require('../../assets/images/bread.png'),
   },
   {
     id: '4',
     title: 'Coffee',
-    image: require('../assets/images/coffee.png'),
+    image: require('../../assets/images/coffee.png'),
   },
   {
     id: '5',
     title: 'Soft drinks',
-    image: require('../assets/images/soft-drink.png'),
+    image: require('../../assets/images/soft-drink.png'),
   },
   {
     id: '6',
     title: 'Desserts',
-    image: require('../assets/images/desserts.png'),
+    image: require('../../assets/images/desserts.png'),
   },
   {
     id: '7',
     title: 'Deals',
-    image: require('../assets/images/deals.png'),
+    image: require('../../assets/images/deals.png'),
   },
 ];
 

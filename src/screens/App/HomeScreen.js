@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, StatusBar} from 'react-native';
+import React, {useContext} from 'react';
+import {View, StyleSheet} from 'react-native';
 
-import {HomeHeaderButton, SearchBar, HomeRestaurants} from '../components';
-import {Colors} from '../constants';
+import {
+  HomeHeaderButton,
+  SearchBar,
+  HomeRestaurants,
+  HomeCategories,
+} from '../../components';
+import {Colors} from '../../constants';
+import {AppContext} from '../../contexts/AppProvider';
 
 export default function HomeScreen() {
-  const [activeTab, setActiveTab] = useState('Delivery');
-  const [searchInput, setsearchInput] = useState('Barcelona');
+  const {activeTab, setActiveTab, city, setCity} = useContext(AppContext);
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        backgroundColor={Colors.lightGrey}
-        barStyle="dark-content"
-        animated
-      />
       <View style={styles.headerContainer}>
         <View style={styles.logisticMethodContainer}>
           <HomeHeaderButton
@@ -31,11 +31,9 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-      <SearchBar setsearchInput={setsearchInput} searchInput={searchInput} />
-      <HomeRestaurants
-        setsearchInput={setsearchInput}
-        searchInput={searchInput}
-      />
+      <SearchBar setCity={setCity} city={city} />
+      <HomeCategories />
+      <HomeRestaurants setCity={setCity} city={city} />
     </View>
   );
 }

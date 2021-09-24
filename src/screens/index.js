@@ -1,6 +1,11 @@
-export {default as AccountScreen} from './AccountScreen';
-export {default as HomeScreen} from './HomeScreen';
-export {default as BrowseScreen} from './BrowseScreen';
-export {default as GroceryScreen} from './GroceryScreen';
-export {default as RestautantDetails} from './RestautantDetails';
-export {default as OrdersScreen} from './OrdersScreen';
+export {default as AccountScreen} from './App/AccountScreen';
+export {default as HomeScreen} from './App/HomeScreen';
+export {default as BrowseScreen} from './App/BrowseScreen';
+export {default as GroceryScreen} from './App/GroceryScreen';
+export {default as RestaurantDetails} from './App/RestaurantDetails';
+export {default as OrdersScreen} from './App/OrdersScreen';
+
+export {default as ChooseAuth} from './Auth/ChooseAuthScreen';
+export {default as Login} from './Auth/LoginScreen';
+export {default as Onboarding} from './Auth/OnboardingScreen';
+export {default as SignUp} from './Auth/SignUpScreen';

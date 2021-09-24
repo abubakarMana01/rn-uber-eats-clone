@@ -1,19 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {Colors} from '../constants';
+import {Colors} from '../../constants';
+import {AuthContext} from '../../contexts/AuthProvider';
 
-export default function SearchBar({setsearchInput}) {
+export default function SearchBar({city, setCity}) {
+  const authContext = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
-        placeholder="Search"
+        placeholder={city}
         onPress={(data, details = null) => {
-          setsearchInput(data.description.split(',')[0]);
+          setCity(data.description.split(',')[0]);
         }}
         query={{
           key: 'AIzaSyA86Ztzw4bOB5xdqy1wXm-nAok8B6MownM',
@@ -25,7 +27,10 @@ export default function SearchBar({setsearchInput}) {
           </View>
         )}
         renderRightButton={() => (
-          <TouchableOpacity activeOpacity={0.5} style={styles.rightContainer}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={styles.rightContainer}
+            onPress={authContext.logout}>
             <AntDesign name="clockcircle" size={13} color={Colors.dark} />
             <Text style={styles.searchText}>Search</Text>
           </TouchableOpacity>
