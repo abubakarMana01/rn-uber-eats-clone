@@ -36,6 +36,7 @@ export default function RestaurantAbout({data}) {
             <Text
               style={[
                 styles.restaurantStatus,
+                // eslint-disable-next-line react-native/no-inline-styles
                 {color: data.is_closed ? 'red' : 'green'},
               ]}>
               {data.is_closed ? 'Closed' : 'Opened'}
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   imageContainer: {
-    height: 220,
+    height: 200,
     width: '100%',
   },
   image: {

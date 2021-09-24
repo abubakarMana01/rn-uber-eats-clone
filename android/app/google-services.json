@@ -43,6 +43,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "155166791496-vuij79geikn6jb9vp06i88v3eubqd30r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ubereats",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "155166791496-3t7k4etivm8h3ealr8gu3qh8aethlum1.apps.googleusercontent.com",
           "client_type": 3
         }

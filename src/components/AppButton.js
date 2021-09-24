@@ -25,5 +25,6 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.light,
     fontSize: 16,
+    fontFamily: 'Signika-Medium',
   },
 });

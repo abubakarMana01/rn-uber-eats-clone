@@ -7,7 +7,6 @@ export default function AuthTextInput({
   autoCapitalize = true,
   autoCorrect = false,
   secureTextEntry = false,
-  autoFocus = false,
   label,
   value,
   setValue,
@@ -45,10 +44,11 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     flex: 1,
     paddingLeft: 15,
+    fontFamily: 'Signika-Regular',
   },
   label: {
-    fontWeight: '600',
     fontSize: 16,
     marginBottom: 5,
+    fontFamily: 'Signika-SemiBold',
   },
 });

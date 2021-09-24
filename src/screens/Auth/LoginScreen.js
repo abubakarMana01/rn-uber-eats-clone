@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Keyboard,
   StatusBar,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ScrollView,
   Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
@@ -25,7 +24,7 @@ export default function Login({navigation}) {
     try {
       if (email.trim() && password.trim()) {
         setIsLoading(true);
-        await auth().signInWithEmailAndPassword(email, password);
+        await auth().signInWithEmailAndPassword(email.trim(), password.trim());
         setIsLoading(false);
       } else {
         Alert.alert('Error', 'Please fill all inputs', [{text: 'Ok'}]);
@@ -42,6 +41,7 @@ export default function Login({navigation}) {
         {isLoading ? (
           <Loading />
         ) : (
+          // eslint-disable-next-line react-native/no-inline-styles
           <View style={{flex: 1}}>
             <StatusBar backgroundColor={Colors.light} />
             <HeaderText
@@ -109,13 +109,13 @@ const styles = StyleSheet.create({
   question: {
     fontSize: 18,
     color: Colors.dark,
-    fontWeight: '600',
+    fontFamily: 'Signika-SemiBold',
     textAlign: 'center',
   },
   signUpText: {
     marginTop: 5,
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: 'Signika-SemiBold',
     color: Colors.darkBlue,
     textAlign: 'center',
   },

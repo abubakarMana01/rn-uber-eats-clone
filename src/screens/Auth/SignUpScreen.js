@@ -24,13 +24,19 @@ export default function SignUp({navigation}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (password !== confirmPassword)
-      return alert('Ensure both passwords match');
+    if (password !== confirmPassword) {
+      return Alert.alert('Error', "Passwords don't match", [{text: 'Ok'}]);
+    }
 
     try {
       if (email.trim() && password.trim() && username.trim()) {
         setIsLoading(true);
-        await auth().createUserWithEmailAndPassword(email, password);
+        const cred = await auth().createUserWithEmailAndPassword(
+          email.trim(),
+          password.trim(),
+        );
+        await cred.user.updateProfile({displayName: username});
+
         setIsLoading(false);
       } else {
         Alert.alert('Error', 'Please fill all inputs', [{text: 'Ok'}]);
@@ -136,13 +142,13 @@ const styles = StyleSheet.create({
   question: {
     fontSize: 18,
     color: Colors.dark,
-    fontWeight: '600',
     textAlign: 'center',
+    fontFamily: 'Signika-SemiBold',
   },
   signUpText: {
     marginTop: 5,
     fontSize: 16,
-    fontWeight: '700',
+    fontFamily: 'Signika-SemiBold',
     color: Colors.darkBlue,
     textAlign: 'center',
   },

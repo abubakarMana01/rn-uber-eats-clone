@@ -10,5 +10,7 @@ export {default as HeaderText} from './Auth/HeaderText';
 
 export {default as AboutRestaurant} from './Restaurant Details/RestaurantAbout';
 export {default as MenuItems} from './Restaurant Details/MenuItems';
+export {default as ViewCart} from './Restaurant Details/ViewCart';
+
 export {default as Loading} from './LoadingAnimation';
 export {default as AppButton} from './AppButton';

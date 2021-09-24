@@ -10,6 +10,7 @@ import {AuthContext} from '../../contexts/AuthProvider';
 
 export default function SearchBar({city, setCity}) {
   const authContext = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete

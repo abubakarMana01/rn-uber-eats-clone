@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,8 +7,10 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 import {Colors} from '../../constants';
+import {AppContext} from '../../contexts/AppProvider';
 
 const foods = [
   {
@@ -50,15 +52,42 @@ const foods = [
   },
 ];
 
-export default function MenuItems({data}) {
+export default function MenuItems() {
+  const {selectedFoods, setSelectedFoods} = useContext(AppContext);
+
   return (
     <View style={styles.container}>
       <FlatList
         showsVerticalScrollIndicator={false}
+        // eslint-disable-next-line react-native/no-inline-styles
         ListHeaderComponent={() => <View style={{height: 10}} />}
         data={foods}
         renderItem={({item}) => (
           <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
+            <BouncyCheckbox
+              size={22}
+              fillColor="green"
+              unfillColor="#FFFFFF"
+              // eslint-disable-next-line react-native/no-inline-styles
+              iconStyle={{borderColor: 'green', borderRadius: 0}}
+              onPress={isChecked => {
+                if (isChecked) {
+                  setSelectedFoods([
+                    ...selectedFoods,
+                    {
+                      title: item.title,
+                      description: item.description,
+                      price: item.price,
+                      image: item.image,
+                    },
+                  ]);
+                } else {
+                  setSelectedFoods(
+                    selectedFoods.filter(food => food.title !== item.title),
+                  );
+                }
+              }}
+            />
             <View style={styles.foodInfoContainer}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.description}>{item.description}</Text>
@@ -83,7 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 170,
+    height: 140,
     paddingVertical: 10,
     paddingLeft: 20,
     marginVertical: 10,
@@ -97,7 +126,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   foodInfoContainer: {
-    width: '70%',
+    width: '65%',
   },
   imageContainer: {
     width: 80,

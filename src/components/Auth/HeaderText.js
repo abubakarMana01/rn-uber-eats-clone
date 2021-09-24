@@ -18,14 +18,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 36,
-    // fontWeight: '600',
     color: Colors.darkBlue,
-    fontFamily: 'Signika-Bold',
+    fontFamily: 'Signika-SemiBold',
   },
   detailedText: {
     fontSize: 14,
     maxWidth: 310,
     marginTop: 10,
-    fontWeight: '600',
+    fontFamily: 'Signika-Regular',
   },
 });

@@ -1,5 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import {GoogleSignin} from '@react-native-community/google-signin';
+
 import auth from '@react-native-firebase/auth';
 
 import AppStackNavigator from './AppStackNavigator';
@@ -17,6 +19,7 @@ export default function Navigator() {
   // Handle user state changes
   function onAuthStateChanged(user) {
     authContext.setUser(user);
+    console.log(user);
 
     if (initializing) {
       setInitializing(false);
@@ -25,6 +28,11 @@ export default function Navigator() {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
+    GoogleSignin.configure({
+      webClientId:
+        '155166791496-3t7k4etivm8h3ealr8gu3qh8aethlum1.apps.googleusercontent.com',
+    });
     return subscriber; // unsubscribe on unmount
   }, []);
 

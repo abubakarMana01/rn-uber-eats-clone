@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     color: Colors.dark,
     marginLeft: 30,
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: 'Signika-SemiBold',
   },
   providerImage: {
     width: 25,
