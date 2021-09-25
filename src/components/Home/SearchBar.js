@@ -47,8 +47,8 @@ export default function SearchBar({city, setCity}) {
             height: 50,
             color: '#5d5d5d',
             fontSize: 16,
-            fontWeight: '700',
             backgroundColor: Colors.lightGrey,
+            fontFamily: 'Signika-SemiBold',
           },
           predefinedPlacesDescription: {
             color: '#1faadb',
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   },
   searchText: {
     marginLeft: 6,
+    fontFamily: 'Signika-Regular',
   },
   rightIcon: {
     marginLeft: 5,

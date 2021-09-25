@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   imageContainer: {
-    height: 200,
+    height: Dimensions.get('window').height * 0.3,
     width: '100%',
   },
   image: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '700',
+    fontFamily: 'Signika-SemiBold',
   },
   bottomContainer: {
     paddingVertical: 10,
@@ -74,6 +74,8 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 5,
     fontSize: 15,
+    fontFamily: 'Signika-Regular',
+    color: Colors.darkGrey,
   },
   top: {
     flexDirection: 'row',
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   },
   restaurantStatus: {
     fontSize: 14,
-    fontWeight: '600',
     marginLeft: 5,
+    fontFamily: 'Signika-Medium',
   },
 });

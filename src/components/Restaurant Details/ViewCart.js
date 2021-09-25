@@ -1,11 +1,13 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 
 export default function ViewCart() {
-  const {selectedFoods} = useContext(AppContext);
+  const {selectedFoods, setCartTotal, cartTotal, setShowCart} =
+    useContext(AppContext);
 
   const foodPrices = [];
   selectedFoods.forEach(food => {
@@ -17,11 +19,15 @@ export default function ViewCart() {
     total += foodPrices[i];
   }
   total = Math.round((total + Number.EPSILON) * 100) / 100;
+  setCartTotal(total);
 
   return (
-    <TouchableOpacity style={styles.viewCart} activeOpacity={0.3}>
+    <TouchableOpacity
+      style={styles.viewCart}
+      activeOpacity={0.7}
+      onPress={() => setShowCart(true)}>
       <Text style={styles.viewCartText}>View Cart</Text>
-      <Text style={styles.totalPrice}>${total}</Text>
+      <Text style={styles.totalPrice}>${cartTotal}</Text>
     </TouchableOpacity>
   );
 }
@@ -29,8 +35,8 @@ export default function ViewCart() {
 const styles = StyleSheet.create({
   viewCart: {
     position: 'absolute',
-    bottom: 70,
-    width: '85%',
+    bottom: 50,
+    width: '70%',
     maxWidth: 350,
     height: 50,
     justifyContent: 'center',
@@ -41,12 +47,15 @@ const styles = StyleSheet.create({
   },
   viewCartText: {
     color: Colors.light,
-    fontSize: 18,
+    fontSize: 16,
+    fontFamily: 'Signika-Medium',
   },
   totalPrice: {
     position: 'absolute',
     color: Colors.mediumGrey,
     right: 20,
     fontWeight: '600',
+    fontSize: 14,
+    fontFamily: 'Signika-SemiBold',
   },
 });

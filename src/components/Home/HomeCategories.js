@@ -52,6 +52,7 @@ export default function HomeCategories() {
   return (
     <View style={styles.container}>
       <FlatList
+        // eslint-disable-next-line react-native/no-inline-styles
         ListHeaderComponent={() => <View style={{width: 20}} />}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   text: {
-    fontWeight: '700',
     fontSize: 14,
+    fontFamily: 'Signika-SemiBold',
   },
 });

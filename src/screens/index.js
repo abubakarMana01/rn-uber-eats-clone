@@ -4,6 +4,7 @@ export {default as BrowseScreen} from './App/BrowseScreen';
 export {default as GroceryScreen} from './App/GroceryScreen';
 export {default as RestaurantDetails} from './App/RestaurantDetails';
 export {default as OrdersScreen} from './App/OrdersScreen';
+export {default as CheckoutScreen} from './App/CheckoutScreen';
 
 export {default as ChooseAuth} from './Auth/ChooseAuthScreen';
 export {default as Login} from './Auth/LoginScreen';

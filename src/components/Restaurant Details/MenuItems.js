@@ -90,7 +90,9 @@ export default function MenuItems() {
             />
             <View style={styles.foodInfoContainer}>
               <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>{item.description}</Text>
+              <Text numberOfLines={3} style={styles.description}>
+                {item.description}
+              </Text>
               <Text style={styles.price}>{item.price}</Text>
             </View>
 
@@ -115,21 +117,22 @@ const styles = StyleSheet.create({
     height: 140,
     paddingVertical: 10,
     paddingLeft: 20,
-    marginVertical: 10,
+    marginVertical: 20,
     marginHorizontal: 20,
     borderRadius: 7,
     elevation: 5,
-    shadowColor: 'rgba(0, 0, 0, 0.7)',
+    shadowColor: 'rgba(0, 0, 0, 0.9)',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 1,
     overflow: 'hidden',
   },
   foodInfoContainer: {
-    width: '65%',
+    flex: 0.7,
   },
   imageContainer: {
-    width: 80,
+    maxWidth: 100,
+    flex: 0.3,
     height: '100%',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
@@ -140,18 +143,19 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   title: {
-    fontWeight: '700',
-    fontSize: 16,
+    fontFamily: 'Signika-SemiBold',
+    fontSize: 17,
   },
   description: {
+    fontFamily: 'Signika-Regular',
     fontSize: 14,
-    color: Colors.dark,
     marginVertical: 10,
+    color: Colors.darkGrey,
   },
   price: {
     fontSize: 14,
-    color: Colors.dark,
+    color: Colors.darkGrey,
     opacity: 0.7,
-    fontWeight: '600',
+    fontFamily: 'Signika-SemiBold',
   },
 });

@@ -17,7 +17,7 @@ export default function AuthTextInput({
       <View style={styles.container}>
         <TextInput
           placeholder={placeholder}
-          keyboardType={keyboardType}
+          // keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
           secureTextEntry={secureTextEntry}

@@ -6,6 +6,8 @@ export function AppProvider({children}) {
   const [activeTab, setActiveTab] = useState('Delivery');
   const [city, setCity] = useState('San Francisco');
   const [selectedFoods, setSelectedFoods] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [showCart, setShowCart] = useState(false);
 
   return (
     <AppContext.Provider
@@ -16,6 +18,10 @@ export function AppProvider({children}) {
         setCity,
         selectedFoods,
         setSelectedFoods,
+        cartTotal,
+        setCartTotal,
+        showCart,
+        setShowCart,
       }}>
       {children}
     </AppContext.Provider>

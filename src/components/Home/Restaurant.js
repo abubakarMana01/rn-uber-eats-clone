@@ -109,12 +109,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   name: {
-    fontWeight: '700',
-    fontSize: 16,
+    fontFamily: 'Signika-SemiBold',
+    fontSize: 17,
     maxWidth: Dimensions.get('window').width * 0.65,
   },
   review: {
     fontWeight: '400',
+    fontFamily: 'Signika-Regular',
     color: Colors.darkGrey,
     fontSize: 13,
   },
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
   },
   restaurantStatus: {
     fontWeight: '600',
+    fontFamily: 'Signika-Medium',
     fontSize: 14,
     marginLeft: 5,
   },
@@ -139,6 +141,7 @@ const styles = StyleSheet.create({
   rating: {
     fontWeight: '500',
     fontSize: 14,
+    fontFamily: 'Signika-Medium',
   },
   favouriteIcon: {},
   bottomRight: {

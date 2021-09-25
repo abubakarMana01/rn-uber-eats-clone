@@ -75,5 +75,6 @@ const styles = StyleSheet.create({
   noRestaurantsText: {
     fontSize: 18,
     textAlign: 'center',
+    fontFamily: 'Signika-SemiBold',
   },
 });

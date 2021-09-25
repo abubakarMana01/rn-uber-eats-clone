@@ -2,12 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Colors} from '../../constants';
 
-export default function HomeHeaderButton({
-  text,
-  btnColor,
-  activeTab,
-  setActiveTab,
-}) {
+export default function HomeHeaderButton({text, activeTab, setActiveTab}) {
   return (
     <TouchableOpacity
       activeOpacity={0.5}
@@ -36,7 +31,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   text: {
-    fontWeight: '700',
+    // fontWeight: '700',
     fontSize: 14,
+    fontFamily: 'Signika-Bold',
   },
 });
