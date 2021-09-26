@@ -9,6 +9,7 @@ export default function LoadingAnimation() {
         source={require('../assets/animations/bouncing-loading-circle.json')}
         autoPlay
         loop
+        speed={0.8}
       />
     </View>
   );

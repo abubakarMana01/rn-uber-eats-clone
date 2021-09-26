@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   imageContainer: {
-    height: Dimensions.get('window').height * 0.3,
+    height: Dimensions.get('window').height * 0.25,
     width: '100%',
   },
   image: {

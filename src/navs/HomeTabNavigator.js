@@ -1,13 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {
   AccountScreen,
-  BrowseScreen,
-  GroceryScreen,
+  FavoritesScreen,
   HomeScreen,
   OrdersScreen,
 } from '../screens';
@@ -24,13 +22,11 @@ export default function HomeTabNavigator() {
         tabBarInactiveTintColor: colors.darkGrey,
         tabBarLabelStyle: {
           fontSize: 12,
-        },
-        tabBarStyle: {
-          // backgroundColor: colors.lightGrey,
+          fontFamily: 'Signika-Medium',
         },
       }}>
       <Tab.Screen
-        name="Home Screen"
+        name="Home"
         component={HomeScreen}
         options={{
           tabBarIcon: ({size, color}) => (
@@ -40,27 +36,7 @@ export default function HomeTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Browse Screen"
-        component={BrowseScreen}
-        options={{
-          tabBarIcon: ({size, color}) => (
-            <FontAwesome name="search" size={size} color={color} />
-          ),
-          tabBarLabel: 'Browse',
-        }}
-      />
-      <Tab.Screen
-        name="Grocery Screen"
-        component={GroceryScreen}
-        options={{
-          tabBarIcon: ({size, color}) => (
-            <FontAwesome5 name="shopping-bag" size={size} color={color} />
-          ),
-          tabBarLabel: 'Grocery',
-        }}
-      />
-      <Tab.Screen
-        name="Orders Screen"
+        name="Orders"
         component={OrdersScreen}
         options={{
           tabBarIcon: ({size, color}) => (
@@ -70,7 +46,17 @@ export default function HomeTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Account Screen"
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          tabBarIcon: ({size, color}) => (
+            <FontAwesome5 name="heart" size={size} color={color} />
+          ),
+          tabBarLabel: 'Favorites',
+        }}
+      />
+      <Tab.Screen
+        name="Account"
         component={AccountScreen}
         options={{
           tabBarIcon: ({size, color}) => (
@@ -79,6 +65,16 @@ export default function HomeTabNavigator() {
           tabBarLabel: 'Account',
         }}
       />
+      {/* <Tab.Screen
+        name="Browse"
+        component={BrowseScreen}
+        options={{
+          tabBarIcon: ({size, color}) => (
+            <FontAwesome name="search" size={size} color={color} />
+          ),
+          tabBarLabel: 'Browse',
+        }}
+      /> */}
     </Tab.Navigator>
   );
 }

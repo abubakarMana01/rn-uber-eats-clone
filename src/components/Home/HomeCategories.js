@@ -53,7 +53,7 @@ export default function HomeCategories() {
     <View style={styles.container}>
       <FlatList
         // eslint-disable-next-line react-native/no-inline-styles
-        ListHeaderComponent={() => <View style={{width: 20}} />}
+        ListHeaderComponent={() => <View style={{width: 10}} />}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={categories}
@@ -73,19 +73,23 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: Colors.light,
     marginTop: 5,
-    marginBottom: 15,
   },
   itemContainer: {
     alignItems: 'center',
-    marginRight: 25,
+    marginRight: 10,
+    flexDirection: 'row',
+    backgroundColor: Colors.lightGrey,
+    borderRadius: 8,
+    paddingHorizontal: 10,
   },
   image: {
-    height: 50,
-    width: 40,
+    height: 35,
+    width: 25,
     resizeMode: 'contain',
   },
   text: {
     fontSize: 14,
     fontFamily: 'Signika-SemiBold',
+    marginLeft: 5,
   },
 });

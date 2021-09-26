@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {GoogleSignin} from '@react-native-community/google-signin';
 
 import {Loading, SignInOptionFrame} from '../../components';
@@ -23,7 +24,24 @@ export default function ChooseAuth({navigation}) {
       setIsLoading(true);
       const {idToken} = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      await auth().signInWithCredential(googleCredential);
+      const cred = await auth().signInWithCredential(googleCredential);
+
+      const db = firestore();
+
+      cred.additionalUserInfo.isNewUser &&
+        db
+          .collection('users')
+          .doc(cred.user.uid)
+          .set({
+            email: cred.user.email,
+            uid: cred.user.uid,
+            username: cred.user.displayName,
+          })
+          .then(() => {
+            console.log('User information set');
+          })
+          .catch(err => console.log(err.message));
+
       return setIsLoading(false);
     } catch (err) {
       setIsLoading(false);

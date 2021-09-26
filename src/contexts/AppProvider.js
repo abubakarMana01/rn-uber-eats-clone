@@ -7,11 +7,13 @@ export function AppProvider({children}) {
   const [city, setCity] = useState('San Francisco');
   const [selectedFoods, setSelectedFoods] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
-  const [showCart, setShowCart] = useState(false);
+  const [userCredentials, setUserCredentials] = useState(null);
 
   return (
     <AppContext.Provider
       value={{
+        userCredentials,
+        setUserCredentials,
         activeTab,
         setActiveTab,
         city,
@@ -20,8 +22,6 @@ export function AppProvider({children}) {
         setSelectedFoods,
         cartTotal,
         setCartTotal,
-        showCart,
-        setShowCart,
       }}>
       {children}
     </AppContext.Provider>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Alert,
   Keyboard,
@@ -11,11 +11,14 @@ import {
   View,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 import {AppButton, AuthTextInput, HeaderText, Loading} from '../../components';
 import {Colors} from '../../constants';
+import {AuthContext} from '../../contexts/AuthProvider';
 
 export default function SignUp({navigation}) {
+  const {setUser} = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +38,28 @@ export default function SignUp({navigation}) {
           email.trim(),
           password.trim(),
         );
-        await cred.user.updateProfile({displayName: username});
+
+        auth()
+          .currentUser.updateProfile({
+            displayName: username,
+          })
+          .then(() => {
+            setUser(auth().currentUser);
+          })
+          .catch(error => {
+            console.log('Update failed', error.message);
+          });
+
+        const db = firestore();
+        db.collection('users')
+          .doc(cred.user.uid)
+          .set({
+            email: email,
+            uid: cred.user.uid,
+            username: username,
+          })
+          .then(() => console.log('User information set', cred))
+          .catch(err => console.log(err.message));
 
         setIsLoading(false);
       } else {

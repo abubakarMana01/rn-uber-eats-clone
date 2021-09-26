@@ -1,13 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  Modal,
-} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Image, Modal} from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import {Colors} from '../../constants';
@@ -42,6 +34,7 @@ export default function CheckoutScreen({route}) {
           <View style={styles.lottieBottom}>
             <LottieView
               autoSize
+              // eslint-disable-next-line react-native/no-inline-styles
               style={{width: '100%'}}
               loop={false}
               source={require('../../assets/animations/cooking.json')}
@@ -51,7 +44,7 @@ export default function CheckoutScreen({route}) {
           </View>
         )}
         renderItem={({item}) => (
-          <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
+          <View style={styles.menuItem} activeOpacity={0.7}>
             <View style={styles.foodInfoContainer}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.description}>{item.description}</Text>
@@ -61,7 +54,7 @@ export default function CheckoutScreen({route}) {
             <View style={styles.imageContainer}>
               <Image style={styles.image} source={{uri: item.image}} />
             </View>
-          </TouchableOpacity>
+          </View>
         )}
       />
     </View>

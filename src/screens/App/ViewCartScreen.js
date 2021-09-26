@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Modal,
   TouchableOpacity,
   TouchableWithoutFeedback,
   FlatList,
@@ -14,35 +13,42 @@ import {Loading} from '../../components';
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 
-export default function ViewCartModal({data}) {
-  const {cartTotal, showCart, setShowCart, selectedFoods} =
-    useContext(AppContext);
-
+export default function ViewCartScreen({route}) {
   const navigation = useNavigation();
+  const {data} = route.params;
+
+  const {cartTotal, selectedFoods} = useContext(AppContext);
 
   return (
-    <Modal visible={showCart} transparent animationType="slide">
+    <View style={styles.container}>
       <View style={styles.background}>
-        <TouchableWithoutFeedback onPress={() => setShowCart(false)}>
+        <TouchableWithoutFeedback>
           <View style={styles.topEmptyContainer} />
         </TouchableWithoutFeedback>
-        <View style={styles.container}>
+        <View style={styles.listContainer}>
           <Text style={styles.title}>{data.name}</Text>
 
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            ListFooterComponent={() => <></>}
-            ItemSeparatorComponent={() => (
-              <View style={styles.flatListItemSeparator} />
-            )}
-            data={selectedFoods}
-            renderItem={({item}) => (
-              <View style={styles.foodContainer}>
-                <Text style={styles.foodName}>{item.title}</Text>
-                <Text style={styles.price}>{item.price}</Text>
-              </View>
-            )}
-          />
+          {selectedFoods.length === 0 ? (
+            <Text style={styles.noSelectionText}>
+              You have not selected any food. Please select at least one before
+              you can checkout
+            </Text>
+          ) : (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              ListFooterComponent={() => <></>}
+              ItemSeparatorComponent={() => (
+                <View style={styles.flatListItemSeparator} />
+              )}
+              data={selectedFoods}
+              renderItem={({item}) => (
+                <View style={styles.foodContainer}>
+                  <Text style={styles.foodName}>{item.title}</Text>
+                  <Text style={styles.price}>{item.price}</Text>
+                </View>
+              )}
+            />
+          )}
 
           <View style={styles.subTotalContainer}>
             <Text style={styles.subTotalText}>Subtotal</Text>
@@ -53,7 +59,6 @@ export default function ViewCartModal({data}) {
             style={styles.viewCart}
             activeOpacity={0.5}
             onPress={() => {
-              setShowCart(false);
               return (
                 <Loading onFinish={navigation.navigate('Checkout', {data})} />
               );
@@ -62,17 +67,20 @@ export default function ViewCartModal({data}) {
           </TouchableOpacity>
         </View>
       </View>
-    </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   background: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'flex-end',
   },
-  container: {
+  listContainer: {
     flex: 0.6,
     backgroundColor: Colors.lightGrey,
     padding: 20,
@@ -107,6 +115,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
     fontFamily: 'Signika-SemiBold',
+  },
+
+  noSelectionText: {
+    alignSelf: 'center',
+    fontFamily: 'Signika-Medium',
+    textAlign: 'center',
+    fontSize: 18,
+    flex: 1,
   },
 
   foodContainer: {

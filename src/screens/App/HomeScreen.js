@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 import {
   HomeHeaderButton,
@@ -9,9 +9,11 @@ import {
 } from '../../components';
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
+import {AuthContext} from '../../contexts/AuthProvider';
 
 export default function HomeScreen() {
   const {activeTab, setActiveTab, city, setCity} = useContext(AppContext);
+  const {user} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -30,6 +32,9 @@ export default function HomeScreen() {
             setActiveTab={setActiveTab}
           />
         </View>
+        <Text numberOfLines={1} style={styles.username}>
+          {user.displayName}
+        </Text>
       </View>
       <SearchBar setCity={setCity} city={city} />
       <HomeCategories />
@@ -48,9 +53,17 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 20,
     paddingBottom: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   logisticMethodContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+  username: {
+    fontFamily: 'Signika-SemiBold',
+    fontSize: 20,
+    paddingHorizontal: 10,
   },
 });

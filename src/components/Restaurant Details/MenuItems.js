@@ -1,19 +1,14 @@
 import React, {useContext} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
+import {ViewCart} from '..';
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 
 const foods = [
   {
+    id: '1',
     title: 'Lasagna',
     description: 'With butter lettuce, tomato and sauce bechamel',
     price: '$13.50',
@@ -21,6 +16,7 @@ const foods = [
       'https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg',
   },
   {
+    id: '2',
     title: 'Tandoori Chicken',
     description:
       'Amazing Indian dish with tenderloin chicken off the sizzles 🔥',
@@ -28,6 +24,7 @@ const foods = [
     image: 'https://i.ytimg.com/vi/BKxGodX9NGg/maxresdefault.jpg',
   },
   {
+    id: '3',
     title: 'Chilaquiles',
     description:
       'Chilaquiles with cheese and sauce. A delicious mexican dish 🇲🇽',
@@ -36,6 +33,7 @@ const foods = [
       'https://i2.wp.com/chilipeppermadness.com/wp-content/uploads/2020/11/Chilaquales-Recipe-Chilaquiles-Rojos-1.jpg',
   },
   {
+    id: '4',
     title: 'Chicken Caesar Salad',
     description:
       'One can never go wrong with a chicken caesar salad. Healthy option with greens and proteins!',
@@ -44,6 +42,7 @@ const foods = [
       'https://images.themodernproper.com/billowy-turkey/production/posts/2019/Easy-italian-salad-recipe-10.jpg?w=1200&h=1200&q=82&fm=jpg&fit=crop&fp-x=0.5&fp-y=0.5&dm=1614096227&s=c0f63a30cef3334d97f9ecad14be51da',
   },
   {
+    id: '5',
     title: 'Lasagna',
     description: 'With butter lettuce, tomato and sauce bechamel',
     price: '$13.50',
@@ -52,7 +51,7 @@ const foods = [
   },
 ];
 
-export default function MenuItems() {
+export default function MenuItems({data}) {
   const {selectedFoods, setSelectedFoods} = useContext(AppContext);
 
   return (
@@ -63,18 +62,18 @@ export default function MenuItems() {
         ListHeaderComponent={() => <View style={{height: 10}} />}
         data={foods}
         renderItem={({item}) => (
-          <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
+          <View style={styles.menuItem} activeOpacity={0.7}>
             <BouncyCheckbox
               size={22}
               fillColor="green"
               unfillColor="#FFFFFF"
-              // eslint-disable-next-line react-native/no-inline-styles
-              iconStyle={{borderColor: 'green', borderRadius: 0}}
+              iconStyle={styles.bouncyCheckbox}
               onPress={isChecked => {
                 if (isChecked) {
                   setSelectedFoods([
                     ...selectedFoods,
                     {
+                      id: item.id,
                       title: item.title,
                       description: item.description,
                       price: item.price,
@@ -99,9 +98,10 @@ export default function MenuItems() {
             <View style={styles.imageContainer}>
               <Image style={styles.image} source={{uri: item.image}} />
             </View>
-          </TouchableOpacity>
+          </View>
         )}
       />
+      <ViewCart data={data} />
     </View>
   );
 }
@@ -157,5 +157,9 @@ const styles = StyleSheet.create({
     color: Colors.darkGrey,
     opacity: 0.7,
     fontFamily: 'Signika-SemiBold',
+  },
+  bouncyCheckbox: {
+    borderColor: 'green',
+    borderRadius: 0,
   },
 });

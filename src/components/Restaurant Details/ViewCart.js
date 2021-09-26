@@ -5,9 +5,10 @@ import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 
-export default function ViewCart() {
-  const {selectedFoods, setCartTotal, cartTotal, setShowCart} =
-    useContext(AppContext);
+export default function ViewCart({data}) {
+  const navigation = useNavigation();
+
+  const {selectedFoods, setCartTotal, cartTotal} = useContext(AppContext);
 
   const foodPrices = [];
   selectedFoods.forEach(food => {
@@ -25,7 +26,9 @@ export default function ViewCart() {
     <TouchableOpacity
       style={styles.viewCart}
       activeOpacity={0.7}
-      onPress={() => setShowCart(true)}>
+      onPress={() => {
+        navigation.navigate('View Cart', {data});
+      }}>
       <Text style={styles.viewCartText}>View Cart</Text>
       <Text style={styles.totalPrice}>${cartTotal}</Text>
     </TouchableOpacity>
