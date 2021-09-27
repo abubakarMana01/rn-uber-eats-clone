@@ -45,9 +45,10 @@ export default function HomeRestaurants({city}) {
           return setRestaurants([]);
         }
         setRestaurants(
-          data.businesses.filter(business =>
-            business.transactions.includes(activeTab.toLowerCase()),
-          ),
+          data.businesses.filter(business => {
+            // console.log(business.id);
+            return business.transactions.includes(activeTab.toLowerCase());
+          }),
         );
 
         setLoading(false);

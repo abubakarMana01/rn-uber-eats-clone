@@ -7,22 +7,26 @@ import {
   TouchableWithoutFeedback,
   FlatList,
 } from 'react-native';
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
 
 import {Loading} from '../../components';
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
+import {AuthContext} from '../../contexts/AuthProvider';
 
 export default function ViewCartScreen({route}) {
   const navigation = useNavigation();
   const {data} = route.params;
 
   const {cartTotal, selectedFoods} = useContext(AppContext);
+  const {user} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <View style={styles.background}>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
           <View style={styles.topEmptyContainer} />
         </TouchableWithoutFeedback>
         <View style={styles.listContainer}>
@@ -59,6 +63,19 @@ export default function ViewCartScreen({route}) {
             style={styles.viewCart}
             activeOpacity={0.5}
             onPress={() => {
+              selectedFoods.forEach(food => {
+                firestore()
+                  .collection('users')
+                  .doc(user.uid)
+                  .collection('orders')
+                  .add({
+                    ...food,
+                    createdAt: firebase.firestore.Timestamp.fromDate(
+                      new Date(),
+                    ),
+                  });
+              });
+
               return (
                 <Loading onFinish={navigation.navigate('Checkout', {data})} />
               );

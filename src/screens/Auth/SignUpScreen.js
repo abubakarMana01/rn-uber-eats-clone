@@ -58,7 +58,6 @@ export default function SignUp({navigation}) {
             uid: cred.user.uid,
             username: username,
           })
-          .then(() => console.log('User information set', cred))
           .catch(err => console.log(err.message));
 
         setIsLoading(false);

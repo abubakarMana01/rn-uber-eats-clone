@@ -7,9 +7,21 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {Colors} from '../../constants';
 import {AuthContext} from '../../contexts/AuthProvider';
+import {AppContext} from '../../contexts/AppProvider';
 
 export default function SearchBar({city, setCity}) {
-  const authContext = useContext(AuthContext);
+  const {logout} = useContext(AuthContext);
+  const {setUserCredentials, setActiveTab, setSelectedFoods, setCartTotal} =
+    useContext(AppContext);
+
+  const handleLogout = () => {
+    logout();
+    setUserCredentials(null);
+    setActiveTab('Delivery');
+    setSelectedFoods([]);
+    setCartTotal(0);
+    setCity('Washington D.C, DC , USA');
+  };
 
   return (
     <View style={styles.container}>
@@ -31,7 +43,7 @@ export default function SearchBar({city, setCity}) {
           <TouchableOpacity
             activeOpacity={0.5}
             style={styles.rightContainer}
-            onPress={authContext.logout}>
+            onPress={handleLogout}>
             <AntDesign name="clockcircle" size={13} color={Colors.dark} />
             <Text style={styles.searchText}>Search</Text>
           </TouchableOpacity>

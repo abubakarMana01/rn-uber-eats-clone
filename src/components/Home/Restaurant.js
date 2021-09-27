@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,18 +7,71 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
+  ToastAndroid,
 } from 'react-native';
-
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 import {Colors} from '../../constants';
+import {AuthContext} from '../../contexts/AuthProvider';
 
-export default function Restaurant({item}) {
+export default function Restaurant({item, showLike = true}) {
   const navigation = useNavigation();
-
   const [isLiked, setIsLiked] = useState(false);
+  const {user} = useContext(AuthContext);
+
+  const handleLikePress = () => {
+    if (!isLiked) {
+      setIsLiked(true);
+
+      firestore()
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorites')
+        .get()
+        .then(snapshot =>
+          snapshot.docs.find(doc => {
+            if (doc.data().id === item.id) {
+              return true;
+            } else {
+              return false;
+            }
+          }),
+        )
+        .then(res => {
+          if (res) {
+            ToastAndroid.show(
+              'Restaurant already in favorites',
+              ToastAndroid.SHORT,
+            );
+          } else {
+            firestore()
+              .collection('users')
+              .doc(user.uid)
+              .collection('favorites')
+              .add({
+                ...item,
+                isLiked: true,
+              })
+              .then(() => {
+                ToastAndroid.show('Added to favorites', ToastAndroid.SHORT);
+              })
+              .catch(err => {
+                setIsLiked(false);
+                console.log(err);
+              });
+          }
+        })
+        .catch(err => {
+          ToastAndroid.show('Failed to add to favorites', ToastAndroid.SHORT);
+          console.log(err.message);
+        });
+    } else {
+      setIsLiked(false);
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -51,7 +105,6 @@ export default function Restaurant({item}) {
             <Text
               style={[
                 styles.restaurantStatus,
-                // eslint-disable-next-line react-native/no-inline-styles
                 {
                   color: item.is_closed ? 'red' : 'green',
                 },
@@ -62,19 +115,27 @@ export default function Restaurant({item}) {
         </View>
 
         <View style={styles.bottomRight}>
-          <TouchableOpacity
-            style={styles.favouriteIcon}
-            onPress={() => setIsLiked(!isLiked)}>
-            {isLiked ? (
-              <FontAwesome name="heart" size={27} color="red" />
-            ) : (
-              <FontAwesome name="heart-o" size={27} color={Colors.dark} />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {showLike && (
+              <TouchableOpacity
+                style={styles.favouriteIcon}
+                onPress={handleLikePress}>
+                {isLiked ? (
+                  <FontAwesome name="heart" size={27} color="#fc032c" />
+                ) : (
+                  <FontAwesome name="heart-o" size={27} color={Colors.dark} />
+                )}
+              </TouchableOpacity>
             )}
-          </TouchableOpacity>
-
-          <View style={styles.ratingContainer}>
-            <Text style={styles.rating}>{item.rating}</Text>
+            <View style={styles.ratingContainer}>
+              <Text style={styles.rating}>{item.rating}</Text>
+            </View>
           </View>
+          {!showLike && (
+            <TouchableOpacity style={styles.trashIcon} onPress={() => {}}>
+              <FontAwesome name="trash-o" size={24} color="#fc032c" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </TouchableOpacity>
@@ -84,12 +145,12 @@ export default function Restaurant({item}) {
 const styles = StyleSheet.create({
   restaurantContainer: {
     backgroundColor: Colors.light,
-    marginBottom: 30,
+    marginBottom: 25,
     marginHorizontal: 10,
     padding: 15,
     borderRadius: 3,
     elevation: 5,
-    shadowColor: 'rgba(0, 0, 0, 0.7)',
+    shadowColor: Colors.darkGrey,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 1,
@@ -132,7 +193,6 @@ const styles = StyleSheet.create({
   ratingContainer: {
     borderRadius: 15,
     backgroundColor: Colors.lightGrey,
-    marginHorizontal: 10,
     width: 30,
     height: 30,
     justifyContent: 'center',
@@ -143,8 +203,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Signika-Medium',
   },
-  favouriteIcon: {},
+  trashIcon: {},
+  favouriteIcon: {marginHorizontal: 10},
   bottomRight: {
-    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

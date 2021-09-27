@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   username: {
     fontFamily: 'Signika-SemiBold',
-    fontSize: 20,
+    fontSize: 18,
     paddingHorizontal: 10,
   },
 });

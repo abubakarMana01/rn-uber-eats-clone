@@ -101,7 +101,7 @@ export default function MenuItems({data}) {
           </View>
         )}
       />
-      <ViewCart data={data} />
+      <ViewCart data={data} foods={foods} />
     </View>
   );
 }
