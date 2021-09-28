@@ -51,7 +51,8 @@ export default function Restaurant({item, showLike = true}) {
               .collection('users')
               .doc(user.uid)
               .collection('favorites')
-              .add({
+              .doc(item.id)
+              .set({
                 ...item,
                 isLiked: true,
               })
@@ -71,6 +72,28 @@ export default function Restaurant({item, showLike = true}) {
     } else {
       setIsLiked(false);
     }
+  };
+
+  const handleRemoveFavorite = id => {
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('favorites')
+      .doc(id)
+      .delete()
+      .then(() => {
+        ToastAndroid.show(
+          'Restaurant removed from favorites',
+          ToastAndroid.SHORT,
+        );
+      })
+      .catch(err => {
+        ToastAndroid.show(
+          'Failed to remove restaurant from favorites',
+          ToastAndroid.SHORT,
+        );
+        console.log(err.message);
+      });
   };
 
   return (
@@ -132,7 +155,11 @@ export default function Restaurant({item, showLike = true}) {
             </View>
           </View>
           {!showLike && (
-            <TouchableOpacity style={styles.trashIcon} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.trashIcon}
+              onPress={() => {
+                handleRemoveFavorite(item.id);
+              }}>
               <FontAwesome name="trash-o" size={24} color="#fc032c" />
             </TouchableOpacity>
           )}

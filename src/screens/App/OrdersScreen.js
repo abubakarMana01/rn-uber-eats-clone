@@ -1,5 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
 
@@ -48,6 +55,7 @@ export default function OrdersScreen() {
       ) : (
         <FlatList
           data={orders}
+          refreshControl={<RefreshControl onRefresh={fetchOrders} />}
           ListHeaderComponent={() => (
             <View style={styles.listHeaderComponent} />
           )}
