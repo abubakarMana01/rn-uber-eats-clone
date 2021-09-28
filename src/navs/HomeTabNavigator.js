@@ -32,9 +32,12 @@ export default function HomeTabNavigator() {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({size, color}) => (
-            <Ionicons name="home" size={size} color={color} />
-          ),
+          tabBarIcon: ({size, color, focused}) =>
+            focused ? (
+              <Ionicons name="home" size={size} color={color} />
+            ) : (
+              <Ionicons name="home-outline" size={size} color={color} />
+            ),
           tabBarLabel: 'Home',
         }}
       />
@@ -70,9 +73,12 @@ export default function HomeTabNavigator() {
             elevation: 7,
             shadowColor: Colors.darkGrey,
           },
-          tabBarIcon: ({size, color}) => (
-            <Ionicons name="newspaper" size={size} color={color} />
-          ),
+          tabBarIcon: ({size, color, focused}) =>
+            focused ? (
+              <Ionicons name="newspaper" size={size} color={color} />
+            ) : (
+              <Ionicons name="newspaper-outline" size={size} color={color} />
+            ),
           tabBarLabel: 'Orders',
         }}
       />
@@ -101,9 +107,12 @@ export default function HomeTabNavigator() {
               </Text>
             </View>
           ),
-          tabBarIcon: ({size, color}) => (
-            <AntDesign name="heart" size={size} color={color} />
-          ),
+          tabBarIcon: ({size, color, focused}) =>
+            focused ? (
+              <AntDesign name="heart" size={size} color={color} />
+            ) : (
+              <AntDesign name="hearto" size={size} color={color} />
+            ),
           tabBarLabel: 'Favorites',
         }}
       />
@@ -111,14 +120,20 @@ export default function HomeTabNavigator() {
         name="Account"
         component={AccountScreen}
         options={{
-          tabBarIcon: ({size, color}) => (
-            // <Ionicons name="person" size={size} color={color} />
-            <MaterialCommunityIcons
-              name="account-circle-outline"
-              size={27}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({focused, color}) =>
+            focused ? (
+              <MaterialCommunityIcons
+                name="account-circle"
+                size={27}
+                color={color}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="account-circle-outline"
+                size={27}
+                color={color}
+              />
+            ),
           tabBarLabel: 'Account',
         }}
       />
