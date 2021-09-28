@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   FlatList,
+  Modal,
 } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
+import * as Progress from 'react-native-progress';
 
-import {Loading} from '../../components';
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 import {AuthContext} from '../../contexts/AuthProvider';
@@ -19,12 +20,37 @@ import {AuthContext} from '../../contexts/AuthProvider';
 export default function ViewCartScreen({route}) {
   const navigation = useNavigation();
   const {data} = route.params;
-
-  const {cartTotal, selectedFoods} = useContext(AppContext);
+  const {cartTotal, selectedFoods, setSelectedFoods} = useContext(AppContext);
   const {user} = useContext(AuthContext);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleOrderSubmit = () => {
+    selectedFoods.forEach(food => {
+      firestore()
+        .collection('users')
+        .doc(user.uid)
+        .collection('orders')
+        .add({
+          ...food,
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        })
+        .then(() => {
+          setIsVisible(true);
+          setSelectedFoods([]);
+          setTimeout(() => {
+            navigation.navigate('Checkout', {data});
+          }, 2000);
+        });
+    });
+  };
 
   return (
     <View style={styles.container}>
+      <Modal visible={isVisible}>
+        <View style={styles.modalBg}>
+          <Progress.Bar width={250} color="green" indeterminate />
+        </View>
+      </Modal>
       <View style={styles.background}>
         <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
           <View style={styles.topEmptyContainer} />
@@ -69,25 +95,7 @@ export default function ViewCartScreen({route}) {
               },
             ]}
             activeOpacity={0.5}
-            onPress={() => {
-              selectedFoods.forEach(food => {
-                firestore()
-                  .collection('users')
-                  .doc(user.uid)
-                  .collection('orders')
-                  .add({
-                    ...food,
-                    createdAt: firebase.firestore.Timestamp.fromDate(
-                      new Date(),
-                    ),
-                  })
-                  .then(() => (
-                    <Loading
-                      onFinish={navigation.navigate('Checkout', {data})}
-                    />
-                  ));
-              });
-            }}>
+            onPress={handleOrderSubmit}>
             <Text style={styles.viewCartText}>Checkout</Text>
           </TouchableOpacity>
         </View>
@@ -191,5 +199,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.mediumGrey,
   },
 
-  topEmptyContainer: {flex: 0.4},
+  topEmptyContainer: {
+    flex: 0.4,
+  },
+  modalBg: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
