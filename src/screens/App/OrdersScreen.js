@@ -1,20 +1,27 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import LottieView from 'lottie-react-native';
 
 import {AuthContext} from '../../contexts/AuthProvider';
 import {Colors} from '../../constants';
+import {Loading} from '../../components';
 
 export default function OrdersScreen() {
   const {user} = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchOrders = () => {
+    setIsLoading(true);
     firestore()
       .collection('users')
       .doc(user.uid)
       .collection('orders')
-      .onSnapshot(snapshot => setOrders(snapshot.docs));
+      .onSnapshot(snapshot => {
+        setIsLoading(false);
+        setOrders(snapshot.docs);
+      });
   };
 
   useEffect(() => {
@@ -24,32 +31,53 @@ export default function OrdersScreen() {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={orders}
-        ListHeaderComponent={() => <View style={styles.listHeaderComponent} />}
-        renderItem={({item}) => {
-          return (
-            <View style={styles.menuItem} activeOpacity={0.7}>
-              <View style={styles.foodInfoContainer}>
-                <Text style={styles.title}>{item.data().title}</Text>
-                <Text style={styles.description}>
-                  {item.data().description}
-                </Text>
-                <Text style={styles.price}>
-                  {item.data().price ? item.data().price : 'N/A'}
-                </Text>
-                <Text style={styles.createdAt}>
-                  {item.data().createdAt.toDate().toLocaleString()}
-                </Text>
-              </View>
+      {isLoading ? (
+        <Loading />
+      ) : orders.length === 0 ? (
+        <View style={styles.noOrders}>
+          <LottieView
+            autoPlay
+            loop
+            style={styles.lottieAnimation}
+            source={require('../../assets/animations/scanner.json')}
+          />
+          <Text style={styles.noOrdersText}>
+            You have not made any orders yet
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={orders}
+          ListHeaderComponent={() => (
+            <View style={styles.listHeaderComponent} />
+          )}
+          renderItem={({item}) => {
+            return (
+              <View style={styles.menuItem} activeOpacity={0.7}>
+                <View style={styles.foodInfoContainer}>
+                  <Text style={styles.title}>{item.data().title}</Text>
+                  <Text style={styles.description}>
+                    {item.data().description}
+                  </Text>
+                  <Text style={styles.price}>
+                    {item.data().price ? item.data().price : 'N/A'}
+                  </Text>
+                  <Text style={styles.createdAt}>
+                    {item.data().createdAt.toDate().toLocaleString()}
+                  </Text>
+                </View>
 
-              <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{uri: item.data().image}} />
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={styles.image}
+                    source={{uri: item.data().image}}
+                  />
+                </View>
               </View>
-            </View>
-          );
-        }}
-      />
+            );
+          }}
+        />
+      )}
     </View>
   );
 }
@@ -114,5 +142,20 @@ const styles = StyleSheet.create({
   },
   listHeaderComponent: {
     height: 10,
+  },
+
+  noOrders: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  noOrdersText: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontFamily: 'Signika-SemiBold',
+  },
+  lottieAnimation: {
+    width: 120,
   },
 });

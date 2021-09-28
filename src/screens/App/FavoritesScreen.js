@@ -48,8 +48,7 @@ export default function FavoritesScreen() {
             <LottieView
               autoPlay
               loop
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{width: 120}}
+              style={styles.lottieAnimation}
               source={require('../../assets/animations/scanner.json')}
             />
             <Text style={styles.noFavoritesText}>
@@ -98,5 +97,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     fontFamily: 'Signika-SemiBold',
+  },
+  lottieAnimation: {
+    width: 120,
   },
 });
