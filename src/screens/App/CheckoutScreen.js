@@ -1,11 +1,19 @@
 import React, {useContext, useState} from 'react';
-import {StyleSheet, Text, View, FlatList, Image, Modal} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 
-export default function CheckoutScreen({route}) {
+export default function CheckoutScreen({route, navigation}) {
   const {cartTotal, selectedFoods} = useContext(AppContext);
   const [modalVisible, setModalVisible] = useState(true);
 
@@ -23,10 +31,12 @@ export default function CheckoutScreen({route}) {
         </View>
       </Modal>
 
-      <Text style={styles.header}>
-        Your order at {route.params.data.name} has been placed for ${cartTotal}0
-        🚀
-      </Text>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>
+          Your order at {route.params.data.name} has been placed for $
+          {cartTotal} 🚀
+        </Text>
+      </View>
 
       <FlatList
         data={selectedFoods}
@@ -34,13 +44,19 @@ export default function CheckoutScreen({route}) {
           <View style={styles.lottieBottom}>
             <LottieView
               autoSize
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{width: '100%'}}
+              style={styles.lottie}
               loop={false}
               source={require('../../assets/animations/cooking.json')}
               onAnimationFinish={() => setModalVisible(false)}
               autoPlay
             />
+            <TouchableOpacity
+              disabled={selectedFoods.length === 0}
+              style={styles.backToHome}
+              activeOpacity={0.5}
+              onPress={() => navigation.replace('Main')}>
+              <Text style={styles.backToHomeText}>Back to home</Text>
+            </TouchableOpacity>
           </View>
         )}
         renderItem={({item}) => (
@@ -71,10 +87,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
+    padding: 20,
+  },
+  headerText: {
     fontFamily: 'Signika-SemiBold',
     fontSize: 22,
-    padding: 20,
-    marginTop: 30,
     marginBottom: 0,
   },
   menuItem: {
@@ -125,9 +142,30 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     fontFamily: 'Signika-SemiBold',
   },
-  lottieBottom: {
+  lottie: {
     width: 150,
+    marginBottom: 30,
+  },
+  lottieBottom: {
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  backToHome: {
+    width: '100%',
+    maxWidth: 350,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.dark,
+    borderRadius: 30,
     alignSelf: 'center',
-    marginVertical: 20,
+  },
+  backToHomeText: {
+    color: Colors.light,
+    fontSize: 16,
+    fontFamily: 'Signika-Medium',
   },
 });

@@ -60,7 +60,14 @@ export default function ViewCartScreen({route}) {
           </View>
 
           <TouchableOpacity
-            style={styles.viewCart}
+            disabled={selectedFoods.length === 0}
+            style={[
+              styles.viewCart,
+              {
+                backgroundColor:
+                  selectedFoods.length === 0 ? Colors.mediumGrey : Colors.dark,
+              },
+            ]}
             activeOpacity={0.5}
             onPress={() => {
               selectedFoods.forEach(food => {
@@ -73,12 +80,13 @@ export default function ViewCartScreen({route}) {
                     createdAt: firebase.firestore.Timestamp.fromDate(
                       new Date(),
                     ),
-                  });
+                  })
+                  .then(() => (
+                    <Loading
+                      onFinish={navigation.navigate('Checkout', {data})}
+                    />
+                  ));
               });
-
-              return (
-                <Loading onFinish={navigation.navigate('Checkout', {data})} />
-              );
             }}>
             <Text style={styles.viewCartText}>Checkout</Text>
           </TouchableOpacity>

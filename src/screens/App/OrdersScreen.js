@@ -64,7 +64,7 @@ export default function OrdersScreen() {
               <View style={styles.menuItem} activeOpacity={0.7}>
                 <View style={styles.foodInfoContainer}>
                   <Text style={styles.title}>{item.data().title}</Text>
-                  <Text style={styles.description}>
+                  <Text numberOfLines={2} style={styles.description}>
                     {item.data().description}
                   </Text>
                   <Text style={styles.price}>
