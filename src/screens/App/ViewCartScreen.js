@@ -7,25 +7,26 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   Modal,
+  Alert,
+  ToastAndroid,
 } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-import {useNavigation} from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 
 import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 import {AuthContext} from '../../contexts/AuthProvider';
 
-export default function ViewCartScreen({route}) {
-  const navigation = useNavigation();
+export default function ViewCartScreen({route, navigation}) {
   const {data} = route.params;
-  const {cartTotal, selectedFoods, setSelectedFoods} = useContext(AppContext);
+  const {cartTotal, selectedFoods} = useContext(AppContext);
   const {user} = useContext(AuthContext);
   const [isVisible, setIsVisible] = useState(false);
 
   const handleOrderSubmit = () => {
     selectedFoods.forEach(food => {
+      setIsVisible(true);
       firestore()
         .collection('users')
         .doc(user.uid)
@@ -35,11 +36,15 @@ export default function ViewCartScreen({route}) {
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         })
         .then(() => {
-          setIsVisible(true);
-          setSelectedFoods([]);
-          setTimeout(() => {
-            navigation.navigate('Checkout', {data});
-          }, 2000);
+          navigation.push('Checkout', {data});
+        })
+        .catch(err => {
+          setIsVisible(false);
+          console.log(err.message);
+          ToastAndroid.show(
+            'Failed to place order. Please check your internet conectivity',
+            ToastAndroid.SHORT,
+          );
         });
     });
   };

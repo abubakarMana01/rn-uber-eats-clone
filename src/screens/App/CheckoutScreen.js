@@ -14,7 +14,7 @@ import {Colors} from '../../constants';
 import {AppContext} from '../../contexts/AppProvider';
 
 export default function CheckoutScreen({route, navigation}) {
-  const {cartTotal, selectedFoods} = useContext(AppContext);
+  const {cartTotal, selectedFoods, setSelectedFoods} = useContext(AppContext);
   const [modalVisible, setModalVisible] = useState(true);
 
   return (
@@ -31,17 +31,14 @@ export default function CheckoutScreen({route, navigation}) {
         </View>
       </Modal>
 
-      <View style={styles.header}>
-        <Text style={styles.headerText}>
-          Your order at {route.params.data.name} has been placed for $
-          {cartTotal} 🚀
-        </Text>
-      </View>
-
       <FlatList
         data={selectedFoods}
-        ListFooterComponent={() => (
-          <View style={styles.lottieBottom}>
+        ListHeaderComponent={() => (
+          <View style={styles.header}>
+            <Text style={styles.headerText}>
+              Your order at {route.params.data.name} has been placed for $
+              {cartTotal} 🚀
+            </Text>
             <LottieView
               autoSize
               style={styles.lottie}
@@ -50,11 +47,18 @@ export default function CheckoutScreen({route, navigation}) {
               onAnimationFinish={() => setModalVisible(false)}
               autoPlay
             />
+          </View>
+        )}
+        ListFooterComponent={() => (
+          <View style={styles.lottieBottom}>
             <TouchableOpacity
               disabled={selectedFoods.length === 0}
               style={styles.backToHome}
               activeOpacity={0.5}
-              onPress={() => navigation.replace('Main')}>
+              onPress={() => {
+                setSelectedFoods([]);
+                navigation.replace('Main');
+              }}>
               <Text style={styles.backToHomeText}>Back to home</Text>
             </TouchableOpacity>
           </View>
@@ -145,6 +149,7 @@ const styles = StyleSheet.create({
   lottie: {
     width: 150,
     marginBottom: 30,
+    alignSelf: 'center',
   },
   lottieBottom: {
     marginVertical: 10,
