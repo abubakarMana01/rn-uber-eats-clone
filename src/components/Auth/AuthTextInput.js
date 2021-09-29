@@ -1,5 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+
+import {Colors} from '../../constants';
 
 export default function AuthTextInput({
   placeholder,
@@ -15,9 +18,9 @@ export default function AuthTextInput({
     <>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.container}>
+        <SimpleLineIcons name="lock" size={20} color={Colors.dark} />
         <TextInput
           placeholder={placeholder}
-          // keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
           secureTextEntry={secureTextEntry}
@@ -32,14 +35,13 @@ export default function AuthTextInput({
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: '#870093',
-    borderWidth: 1,
-    height: 50,
-    borderRadius: 8,
-    marginBottom: 10,
+    borderColor: Colors.mediumGrey,
+    borderBottomWidth: 1,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   textInput: {
-    height: 40,
     fontSize: 16,
     lineHeight: 19,
     flex: 1,
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Signika-Regular',
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 5,
     fontFamily: 'Signika-SemiBold',
   },

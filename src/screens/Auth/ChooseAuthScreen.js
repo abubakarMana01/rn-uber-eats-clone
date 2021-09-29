@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 16,
     fontFamily: 'Signika-Medium',
-    color: Colors.darkBlue,
+    color: Colors.green,
     textAlign: 'center',
   },
 });

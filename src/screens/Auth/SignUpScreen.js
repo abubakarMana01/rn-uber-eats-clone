@@ -71,18 +71,16 @@ export default function SignUp({navigation}) {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <ScrollView>
-            <StatusBar backgroundColor={Colors.light} />
-            <HeaderText
-              title="Create account"
-              subTitle="If you don't have an Uber eats account please create one"
-            />
-
+    <View>
+      <ScrollView>
+        <View style={styles.container}>
+          <StatusBar backgroundColor={Colors.green} animated />
+          <View style={styles.topContainer}>
+            <HeaderText title="Create account!" />
+          </View>
+          {isLoading ? (
+            <Loading />
+          ) : (
             <View style={styles.mainContent}>
               <AuthTextInput
                 label="Username"
@@ -121,46 +119,53 @@ export default function SignUp({navigation}) {
                 value={confirmPassword}
                 setValue={setConfirmPassword}
               />
-              <View style={styles.buttonContainer}>
-                <AppButton text="Sign up" onPress={handleSubmit} />
+
+              <View style={styles.bottom}>
+                <View style={styles.buttonContainer}>
+                  <AppButton text="Sign up" onPress={handleSubmit} />
+                </View>
+                <Text style={styles.question}>Already have an account?</Text>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => navigation.navigate('Login Screen')}>
+                  <Text style={styles.signUpText}>Login!</Text>
+                </TouchableOpacity>
               </View>
             </View>
-
-            <View style={styles.bottom}>
-              <Text style={styles.question}>Already have an account?</Text>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('Login Screen')}>
-                <Text style={styles.signUpText}>Login!</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    paddingBottom: 30,
+    backgroundColor: Colors.green,
   },
-  scrollView: {
-    flex: 1,
-    justifyContent: 'space-between',
+  topContainer: {
+    justifyContent: 'center',
+    minHeight: 200,
   },
   mainContent: {
-    paddingHorizontal: 15,
-    marginVertical: 30,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    paddingTop: 40,
+    backgroundColor: Colors.light,
+    paddingHorizontal: 25,
+  },
+  textInputContainer: {
+    paddingHorizontal: 25,
   },
   buttonContainer: {
     alignSelf: 'center',
-    marginTop: 30,
+    marginBottom: 20,
   },
   bottom: {
     alignSelf: 'center',
+    marginTop: 40,
+    marginBottom: 20,
   },
   question: {
     fontSize: 18,
@@ -172,7 +177,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 16,
     fontFamily: 'Signika-SemiBold',
-    color: Colors.darkBlue,
+    color: Colors.green,
     textAlign: 'center',
   },
 });

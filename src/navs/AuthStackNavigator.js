@@ -15,7 +15,11 @@ export default function AuthStackNavigator() {
         component={Login}
         options={{presentation: 'modal'}}
       />
-      <AuthStack.Screen name="SignUp Screen" component={SignUp} />
+      <AuthStack.Screen
+        name="SignUp Screen"
+        component={SignUp}
+        options={{presentation: 'modal'}}
+      />
     </AuthStack.Navigator>
   );
 }

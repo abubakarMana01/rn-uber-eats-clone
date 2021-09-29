@@ -38,51 +38,55 @@ export default function Login({navigation}) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          // eslint-disable-next-line react-native/no-inline-styles
-          <View style={{flex: 1}}>
-            <StatusBar backgroundColor={Colors.light} />
-            <HeaderText
-              title="Login"
-              subTitle="If you already have an Uber eats account please log in!"
-            />
-            <View style={styles.mainContent}>
-              <AuthTextInput
-                label="Email"
-                placeholder="someone@example.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-                value={email}
-                setValue={setEmail}
-              />
-              <AuthTextInput
-                placeholder=""
-                keyboardType="visible-password"
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry={true}
-                label="Password"
-                value={password}
-                setValue={setPassword}
-              />
-              <View style={styles.buttonContainer}>
-                <AppButton text="Login" onPress={handleSubmit} />
+        <StatusBar backgroundColor={Colors.green} />
+        <View style={styles.topContainer}>
+          <HeaderText
+            title="Welcome!"
+            // subTitle="If you already have an Uber eats account please log in!"
+          />
+        </View>
+        <View style={styles.authContainer}>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            // eslint-disable-next-line react-native/no-inline-styles
+            <View style={{flex: 1}}>
+              <View style={styles.mainContent}>
+                <AuthTextInput
+                  label="Email"
+                  placeholder="someone@example.com"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  value={email}
+                  setValue={setEmail}
+                />
+                <AuthTextInput
+                  placeholder=""
+                  keyboardType="visible-password"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry={true}
+                  label="Password"
+                  value={password}
+                  setValue={setPassword}
+                />
+              </View>
+
+              <View style={styles.bottom}>
+                <View style={styles.buttonContainer}>
+                  <AppButton text="Login" onPress={handleSubmit} />
+                </View>
+                <Text style={styles.question}>Don't have an account?</Text>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => navigation.navigate('SignUp Screen')}>
+                  <Text style={styles.signUpText}>Create one!</Text>
+                </TouchableOpacity>
               </View>
             </View>
-
-            <View style={styles.bottom}>
-              <Text style={styles.question}>Don't have an account?</Text>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('SignUp Screen')}>
-                <Text style={styles.signUpText}>Create one!</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
+          )}
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -91,32 +95,43 @@ export default function Login({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.green,
+  },
+  topContainer: {
+    flex: 0.3,
+    justifyContent: 'center',
+  },
+  authContainer: {
+    flex: 0.7,
+    backgroundColor: Colors.light,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
   },
   mainContent: {
-    padding: 15,
-    marginTop: 30,
+    paddingHorizontal: 30,
+    marginTop: 45,
   },
   buttonContainer: {
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: 10,
   },
   bottom: {
     flex: 1,
     alignSelf: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 50,
+    justifyContent: 'center',
   },
   question: {
     fontSize: 18,
     color: Colors.dark,
     fontFamily: 'Signika-SemiBold',
     textAlign: 'center',
+    marginTop: 20,
   },
   signUpText: {
     marginTop: 5,
     fontSize: 16,
     fontFamily: 'Signika-SemiBold',
-    color: Colors.darkBlue,
+    color: Colors.green,
     textAlign: 'center',
   },
 });

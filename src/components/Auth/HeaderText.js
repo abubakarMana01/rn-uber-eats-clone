@@ -7,7 +7,7 @@ export default function HeaderText({title, subTitle}) {
   return (
     <View style={styles.header}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.detailedText}>{subTitle}</Text>
+      {subTitle && <Text style={styles.detailedText}>{subTitle}</Text>}
     </View>
   );
 }
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 36,
-    color: Colors.darkBlue,
+    color: Colors.light,
     fontFamily: 'Signika-SemiBold',
   },
   detailedText: {
@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
     maxWidth: 310,
     marginTop: 10,
     fontFamily: 'Signika-Regular',
+    color: Colors.light,
   },
 });
