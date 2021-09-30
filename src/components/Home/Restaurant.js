@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
   },
   imageContainer: {
-    height: 180,
+    height: Dimensions.get('window').width < 500 ? 180 : 350,
     marginBottom: 10,
     backgroundColor: Colors.lightGrey,
   },

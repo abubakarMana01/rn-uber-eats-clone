@@ -7,28 +7,33 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Alert,
+  Dimensions,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
-import {AppButton, AuthTextInput, HeaderText, Loading} from '../../components';
+import {
+  AppButton,
+  AuthTextInput,
+  Loading,
+  InputErrorMessage,
+} from '../../components';
 import {Colors} from '../../constants';
 
 export default function Login({navigation}) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const loginSchema = Yup.object({
+    email: Yup.string().required().min(3).email().trim(),
+    password: Yup.string().required().min(6).max(255),
+  });
+
+  const handleUserSubmit = async (email, password) => {
     try {
-      if (email.trim() && password.trim()) {
-        setIsLoading(true);
-        await auth().signInWithEmailAndPassword(email.trim(), password.trim());
-        setIsLoading(false);
-      } else {
-        Alert.alert('Error', 'Please fill all inputs', [{text: 'Ok'}]);
-      }
+      setIsLoading(true);
+      await auth().signInWithEmailAndPassword(email.trim(), password.trim());
+      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
       console.log(err.message);
@@ -36,55 +41,69 @@ export default function Login({navigation}) {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <StatusBar backgroundColor={Colors.green} />
         <View style={styles.topContainer}>
-          <HeaderText
-            title="Welcome!"
-            // subTitle="If you already have an Uber eats account please log in!"
-          />
+          <Text style={styles.headerTitle}>Welcome back!</Text>
         </View>
         <View style={styles.authContainer}>
           {isLoading ? (
             <Loading />
           ) : (
-            // eslint-disable-next-line react-native/no-inline-styles
-            <View style={{flex: 1}}>
-              <View style={styles.mainContent}>
-                <AuthTextInput
-                  label="Email"
-                  placeholder="someone@example.com"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  value={email}
-                  setValue={setEmail}
-                />
-                <AuthTextInput
-                  placeholder=""
-                  keyboardType="visible-password"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  secureTextEntry={true}
-                  label="Password"
-                  value={password}
-                  setValue={setPassword}
-                />
-              </View>
+            <Formik
+              initialValues={{email: '', password: ''}}
+              onSubmit={(values, actions) => {
+                handleUserSubmit(values.email, values.password);
+              }}
+              validationSchema={loginSchema}>
+              {({values, handleChange, handleSubmit, errors}) => (
+                <View style={styles.formikContainer}>
+                  <View style={styles.mainContent}>
+                    <AuthTextInput
+                      label="Email"
+                      placeholder="E.g, someone@example.com"
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      // value={email}
+                      value={values.email}
+                      // setValue={setEmail}
+                      setValue={handleChange('email')}
+                    />
+                    <InputErrorMessage error={errors.email} />
 
-              <View style={styles.bottom}>
-                <View style={styles.buttonContainer}>
-                  <AppButton text="Login" onPress={handleSubmit} />
+                    <AuthTextInput
+                      placeholder=""
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={true}
+                      label="Password"
+                      // value={password}
+                      // setValue={setPassword}
+                      value={values.password}
+                      setValue={handleChange('password')}
+                    />
+                    <InputErrorMessage error={errors.password} />
+                  </View>
+                  <View style={styles.bottom}>
+                    <View style={styles.buttonContainer}>
+                      <AppButton
+                        text="Login"
+                        // onPress={handleSubmit}
+                        onPress={handleSubmit}
+                      />
+                    </View>
+                    <Text style={styles.question}>Don't have an account?</Text>
+                    <TouchableOpacity
+                      activeOpacity={0.5}
+                      onPress={() => navigation.navigate('SignUp Screen')}>
+                      <Text style={styles.signUpText}>Create one!</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <Text style={styles.question}>Don't have an account?</Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => navigation.navigate('SignUp Screen')}>
-                  <Text style={styles.signUpText}>Create one!</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+              )}
+            </Formik>
           )}
         </View>
       </View>
@@ -98,14 +117,23 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.green,
   },
   topContainer: {
-    flex: 0.3,
+    flex: Dimensions.get('window').height < 700 ? 0.3 : 0.4,
     justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  headerTitle: {
+    fontSize: 36,
+    color: Colors.light,
+    fontFamily: 'Signika-SemiBold',
   },
   authContainer: {
-    flex: 0.7,
+    flex: Dimensions.get('window').height < 700 ? 0.7 : 0.6,
     backgroundColor: Colors.light,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
+  },
+  formikContainer: {
+    flex: 1,
   },
   mainContent: {
     paddingHorizontal: 30,
@@ -116,9 +144,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   bottom: {
-    flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
+    marginTop: Dimensions.get('window').height < 700 ? 0 : 50,
   },
   question: {
     fontSize: 18,

@@ -6,7 +6,7 @@ import {Colors} from '../../constants';
 
 export default function AuthTextInput({
   placeholder,
-  keyboardType = 'default',
+  keyboardType,
   autoCapitalize = true,
   autoCorrect = false,
   secureTextEntry = false,
@@ -24,6 +24,7 @@ export default function AuthTextInput({
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
           secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
           style={styles.textInput}
           value={value}
           onChangeText={setValue}
