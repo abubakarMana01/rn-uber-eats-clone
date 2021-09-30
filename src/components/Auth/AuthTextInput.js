@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import {InputErrorMessage} from '..';
 
 import {Colors} from '../../constants';
 
@@ -13,6 +14,7 @@ export default function AuthTextInput({
   label,
   value,
   setValue,
+  error,
 }) {
   return (
     <>
@@ -30,6 +32,7 @@ export default function AuthTextInput({
           onChangeText={setValue}
         />
       </View>
+      {error && <InputErrorMessage error={error} />}
     </>
   );
 }
@@ -38,7 +41,6 @@ const styles = StyleSheet.create({
   container: {
     borderColor: Colors.mediumGrey,
     borderBottomWidth: 1,
-    marginBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },

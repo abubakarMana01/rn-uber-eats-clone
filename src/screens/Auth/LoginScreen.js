@@ -70,8 +70,8 @@ export default function Login({navigation}) {
                       value={values.email}
                       // setValue={setEmail}
                       setValue={handleChange('email')}
+                      error={errors.email}
                     />
-                    <InputErrorMessage error={errors.email} />
 
                     <AuthTextInput
                       placeholder=""
@@ -83,8 +83,8 @@ export default function Login({navigation}) {
                       // setValue={setPassword}
                       value={values.password}
                       setValue={handleChange('password')}
+                      error={errors.password}
                     />
-                    <InputErrorMessage error={errors.password} />
                   </View>
                   <View style={styles.bottom}>
                     <View style={styles.buttonContainer}>
